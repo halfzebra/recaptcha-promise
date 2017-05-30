@@ -1,0 +1,43 @@
+{
+  "name": "recaptcha-promise",
+  "description": "Promisify reCAPTCHA Client API",
+  "version": "1.0.0",
+  "author": "Eduard Kyvenko <eduard.kyvenko@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/halfzebra/recaptcha-promise/issues",
+    "email": "eduard.kyvenko@gmail.com"
+  },
+  "devDependencies": {
+    "cross-env": "^5.0.0",
+    "dotenv": "^4.0.0",
+    "jasmine-core": "^2.6.2",
+    "karma": "^1.7.0",
+    "karma-chrome-launcher": "^2.1.1",
+    "karma-coverage": "^1.1.1",
+    "karma-jasmine": "^1.1.0",
+    "karma-mocha-reporter": "^2.2.3",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^2.0.3",
+    "uglifyjs-webpack-plugin": "^0.4.3",
+    "webpack": "^2.5.1"
+  },
+  "files": [
+    "recaptcha-promise.min.js",
+    "src",
+    "README.md"
+  ],
+  "keywords": [
+    "promise",
+    "recaptcha"
+  ],
+  "license": "MIT",
+  "main": "recaptcha-promise.min.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/halfzebra/recaptcha-promise"
+  },
+  "scripts": {
+    "build": "cross-env NODE_ENV=build webpack",
+    "test": "cross-env NODE_ENV=test karma start"
+  }
+}
