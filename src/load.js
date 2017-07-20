@@ -3,12 +3,9 @@
 var RECAPTCHA_URL = 'https://www.google.com/recaptcha/api.js';
 
 function stringifyPrimitive(v) {
-  if (typeof v === 'string')
-    return v;
-  if (typeof v === 'number' && isFinite(v))
-    return '' + v;
-  if (typeof v === 'boolean')
-    return v ? 'true' : 'false';
+  if (typeof v === 'string') return v;
+  if (typeof v === 'number' && isFinite(v)) return '' + v;
+  if (typeof v === 'boolean') return v ? 'true' : 'false';
   return '';
 }
 
@@ -22,13 +19,12 @@ function stringify(obj) {
     var flast = len - 1;
     var fields = '';
     for (var i = 0; i < len; ++i) {
-      var k = keys[ i ];
-      var v = obj[ k ];
+      var k = keys[i];
+      var v = obj[k];
       var ks = window.encodeURIComponent(stringifyPrimitive(k)) + eq;
 
       fields += ks + window.encodeURIComponent(stringifyPrimitive(v));
-      if (i < flast)
-        fields += sep;
+      if (i < flast) fields += sep;
     }
     return fields;
   }
@@ -36,8 +32,7 @@ function stringify(obj) {
 }
 
 function load(parameters) {
-
-  var ONLOAD_CALLBACK_NAME = '__recaptchaOnload' + Math.random().toString().substring(2);
+  var ONLOAD_CALLBACK_NAME = '__recaptchaOnload';
   var defaultParamenters = {
     onload: ONLOAD_CALLBACK_NAME,
     render: 'explicit'
@@ -45,9 +40,10 @@ function load(parameters) {
   var callback;
 
   if (parameters) {
-
     if (parameters.onload) {
-      console.warn('recaptcha-promise does not support setting an onload callback, please use the Promise API');
+      console.warn(
+        'recaptcha-promise does not support setting an onload callback, please use the Promise API'
+      );
     }
 
     parameters = Object.assign({}, defaultParamenters, parameters);
@@ -57,22 +53,19 @@ function load(parameters) {
 
   var src = RECAPTCHA_URL + '?' + stringify(parameters);
 
-  return new Promise(function (resolve, reject) {
-
-    setOnloadCallback(
-      ONLOAD_CALLBACK_NAME,
-      function () {
-        if (window.grecaptcha) {
-          resolve(window.grecaptcha);
-        } else {
-          reject(new Error('grecaptcha is not found in window'));
-        }
-        delete window[ ONLOAD_CALLBACK_NAME ];
-      });
+  return new Promise(function(resolve, reject) {
+    setOnloadCallback(ONLOAD_CALLBACK_NAME, function() {
+      if (window.grecaptcha) {
+        resolve(window.grecaptcha);
+      } else {
+        reject(new Error('grecaptcha is not found in window'));
+      }
+      delete window[ONLOAD_CALLBACK_NAME];
+    });
 
     var script = createScript(src);
 
-    script.addEventListener('error', function (error) {
+    script.addEventListener('error', function(error) {
       reject(error);
     });
 
@@ -81,7 +74,7 @@ function load(parameters) {
 }
 
 function setOnloadCallback(name, callback) {
-  window[ name ] = callback;
+  window[name] = callback;
 }
 
 function createScript(src) {

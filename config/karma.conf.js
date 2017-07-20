@@ -1,17 +1,15 @@
-module.exports = function (config) {
-
+module.exports = function(config) {
   const testWebpackConfig = require('./webpack.config.test');
 
   const configuration = {
-
     /**
      * Frameworks to use
      *
      * available frameworks: https://npmjs.org/browse/keyword/karma-adapter
      */
-    frameworks: [ 'jasmine' ],
+    frameworks: ['jasmine'],
 
-    reporters: [ 'mocha' ],
+    reporters: ['mocha'],
 
     /**
      * Webpack please don't spam the console when running in karma!
@@ -39,22 +37,20 @@ module.exports = function (config) {
      */
     logLevel: config.LOG_WARN,
 
-    files: [
-      { pattern: './config/spec-bundle.js', watched: false },
-    ],
+    files: [{ pattern: './config/spec-bundle.js', watched: false }],
 
-    preprocessors: { './config/spec-bundle.js': [ 'coverage', 'webpack', 'sourcemap' ] },
+    preprocessors: {
+      './config/spec-bundle.js': ['coverage', 'webpack', 'sourcemap']
+    },
 
-    browsers: [
-      'Chrome'
-    ],
+    browsers: ['Chrome'],
 
     webpack: testWebpackConfig,
 
     customLaunchers: {
       ChromeTravisCi: {
         base: 'Chrome',
-        flags: [ '--no-sandbox' ]
+        flags: ['--no-sandbox']
       }
     },
 
@@ -62,14 +58,11 @@ module.exports = function (config) {
      * Continuous Integration mode
      * if true, Karma captures browsers, runs the tests and exits
      */
-    singleRun: true
-
+    singleRun: !!process.env.TRAVIS
   };
 
   if (process.env.TRAVIS) {
-    configuration.browsers = [
-      'ChromeTravisCi'
-    ];
+    configuration.browsers = ['ChromeTravisCi'];
   }
 
   config.set(configuration);
